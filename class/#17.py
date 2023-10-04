@@ -1,8 +1,16 @@
+import csv
+
+class EmailAlreadyExistsExeption(Exception):
+    pass
+
+
 class Employee():
-    def __init__(self,  name, rank,  salary_one_day):
+    def __init__(self,  name, rank,  salary_one_day, email):
         self.name = name
         self.salary_one_day = salary_one_day
         self.rank = rank
+        self.email = email
+
 
     def __str__(self):
         return f'{self.rank.upper()}: {self.name}'   
@@ -20,6 +28,22 @@ class Employee():
         salary_days = self.salary_one_day * days
         return f"{self.name}, your salary for {days} days is {salary_days}\n"
 
+    def save_email(self):
+        f = open('email.csv', 'r')
+        text = f.read()
+        if self.email not in text:
+            f1 = open('email.csv', 'a')
+            f1.write(f'{self.email}\n')
+            f1.close()
+        f.close()        
+
+    def validate(self):
+        f2 = open('email.csv', 'r')
+        text1 = f2.read()
+        if self.email in text1:
+            raise EmailAlreadyExistsExeption('Email already exist!!')   
+        f2.close()
+
     def work(self):
         return "{self.name} come to the office "
 
@@ -31,8 +55,8 @@ class Recruiter(Employee):
 
 
 class Developer(Employee):
-    def __init__(self, name, rank, salary_one_day, *tech_stack):
-        super().__init__(name, rank, salary_one_day)
+    def __init__(self, name, rank, salary_one_day, email, *tech_stack):
+        super().__init__(name, rank, salary_one_day, email)
         self.tech_stack = tech_stack
 
     def work(self):
@@ -58,12 +82,21 @@ class Developer(Employee):
         return new_developer
 
        
-recruiter1 = Recruiter('Oleg','reguiter', 50) 
-recruiter2 = Recruiter('Marina',"requiter", 100,)
+recruiter1 = Recruiter('Oleg','reguiter', 50, 'Oleg777.Makarenro@gmail.com') 
+recruiter2 = Recruiter('Marina',"requiter", 100, 'Marina.Svitenko@gmail.com')
 
-developer1 = Developer('Kristina','developer', 75, 'second tehnologi', 'third tehologi', 'fifth tehnologi')
-developer2 = Developer('Denis','developer', 175, 'first tehnologi', 'second tehnologi', 'fifth tehnologi')
-developer3 = Developer('Maria', 'developer', 200, 'sixth texnologi', 'first tehnologi')
+developer1 = Developer('Kristina','developer', 75, 'Kristina.Prelesnaya@gmail.com', 'second tehnologi', 'third tehologi', 'fifth tehnologi')
+developer2 = Developer('Denis','developer', 175,  'DenisKravchenko@gmail.com', 'first tehnologi', 'second tehnologi', 'fifth tehnologi')
+developer3 = Developer('Maria', 'developer', 200,  'Maria7583@gmail.com', 'sixth texnologi', 'first tehnologi')
+
+recruiter1.save_email()
+recruiter2.save_email()
+developer1.save_email()
+developer2.save_email()
+developer3.save_email()
+
+recruiter1.validate()
+
 
 print(recruiter1)
 print(recruiter1.work())
