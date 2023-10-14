@@ -98,6 +98,20 @@ class Developer(Employee):
         return new_developer
 
 
+class Candidate:
+    def __init__(self,first_name, last_name,email, tech_stack, main_skill, main_skill_grade):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.tech_ctack = tech_stack
+        self.main_skill = main_skill
+        self.main_skill_grade = main_skill_grade
+
+
+
+
+
+
+
        
 recruiter1 = Recruiter('Oleg','reguiter', 50, 'Oleg777.Makarenro@gmail.com') 
 recruiter2 = Recruiter('Marina',"requiter", 100, 'Marina.Svitenko@gmail.com')
